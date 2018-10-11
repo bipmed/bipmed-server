@@ -42,7 +42,10 @@
       "T"
     ],
     "geneSymbol": "TMEM74B ",
-    "alleleFrequency": 0.5,
+    "alleleFrequency": [
+      0.333,
+      0.667
+    ],
     "sampleCount": 2
   },
   {
@@ -55,7 +58,6 @@
       "."
     ],
     "geneSymbol": null,
-    "alleleFrequency": 0.5,
     "sampleCount": 3
   },
   {
@@ -72,7 +74,6 @@
       "GTCT"
     ],
     "geneSymbol": null,
-    "alleleFrequency": 0.5,
     "sampleCount": 3
   }
 ]

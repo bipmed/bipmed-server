@@ -40,7 +40,7 @@ class ServerApplicationTests {
                     start = 14370,
                     referenceBases = "G",
                     alternateBases = listOf("A"),
-                    alleleFrequency = 0.5,
+                    alleleFrequency = listOf(0.5),
                     sampleCount = 3,
                     geneSymbol = "DEFB125"
             ),
@@ -51,7 +51,7 @@ class ServerApplicationTests {
                     start = 17330,
                     referenceBases = "A",
                     alternateBases = listOf("T"),
-                    alleleFrequency = 0.017,
+                    alleleFrequency = listOf(0.017),
                     sampleCount = 3
             ),
             Variant(
@@ -62,7 +62,7 @@ class ServerApplicationTests {
                     start = 1110696,
                     referenceBases = "A",
                     alternateBases = listOf("G", "T"),
-                    alleleFrequency = 0.5,
+                    alleleFrequency = listOf(0.333, 0.667),
                     sampleCount = 2,
                     geneSymbol = "TMEM74B "
             ),
@@ -73,7 +73,6 @@ class ServerApplicationTests {
                     start = 1230237,
                     referenceBases = "T",
                     alternateBases = listOf("."),
-                    alleleFrequency = 0.5,
                     sampleCount = 3
             ),
             Variant(
@@ -84,7 +83,6 @@ class ServerApplicationTests {
                     start = 1234567,
                     referenceBases = "GTC",
                     alternateBases = listOf("G", "GTCT"),
-                    alleleFrequency = 0.5,
                     sampleCount = 3
             )
     )

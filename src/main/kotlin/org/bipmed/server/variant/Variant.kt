@@ -12,6 +12,6 @@ data class Variant (
         val referenceBases: String,
         val alternateBases: List<String>,
         val geneSymbol: String? = null,
-        val alleleFrequency: Number? = null,
+        val alleleFrequency: List<Number>? = null,
         val sampleCount: Long? = null
 )

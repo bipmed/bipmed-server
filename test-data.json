@@ -1,0 +1,78 @@
+[
+  {
+    "variantIds": [
+      "rs6054257"
+    ],
+    "datasetId": "test",
+    "assemblyId": "GCRh38",
+    "referenceName": "20",
+    "start": 14370,
+    "referenceBases": "G",
+    "alternateBases": [
+      "A"
+    ],
+    "geneSymbol": "DEFB125",
+    "alleleFrequency": 0.5,
+    "sampleCount": 3
+  },
+  {
+    "datasetId": "test",
+    "assemblyId": "GCRh38",
+    "referenceName": "20",
+    "start": 17330,
+    "referenceBases": "A",
+    "alternateBases": [
+      "T"
+    ],
+    "geneSymbol": null,
+    "alleleFrequency": 0.017,
+    "sampleCount": 3
+  },
+  {
+    "variantIds": [
+      "rs6040355"
+    ],
+    "datasetId": "test",
+    "assemblyId": "GCRh38",
+    "referenceName": "20",
+    "start": 1110696,
+    "referenceBases": "A",
+    "alternateBases": [
+      "G",
+      "T"
+    ],
+    "geneSymbol": "TMEM74B ",
+    "alleleFrequency": 0.5,
+    "sampleCount": 2
+  },
+  {
+    "datasetId": "test",
+    "assemblyId": "GCRh38",
+    "referenceName": "20",
+    "start": 1230237,
+    "referenceBases": "T",
+    "alternateBases": [
+      "."
+    ],
+    "geneSymbol": null,
+    "alleleFrequency": 0.5,
+    "sampleCount": 3
+  },
+  {
+    "variantIds": [
+      "microsat1"
+    ],
+    "datasetId": "test",
+    "assemblyId": "GCRh38",
+    "referenceName": "20",
+    "start": 1234567,
+    "referenceBases": "GTC",
+    "alternateBases": [
+      "G",
+      "GTCT"
+    ],
+    "geneSymbol": null,
+    "alleleFrequency": 0.5,
+    "sampleCount": 3
+  }
+]

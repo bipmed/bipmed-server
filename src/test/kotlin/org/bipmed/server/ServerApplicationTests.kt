@@ -4,6 +4,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.bipmed.server.api.QueryResponse
 import org.bipmed.server.query.Query
 import org.bipmed.server.variant.Variant
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -13,6 +14,7 @@ import org.springframework.boot.web.client.RestTemplateBuilder
 import org.springframework.boot.web.server.LocalServerPort
 import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.test.context.junit4.SpringRunner
+import org.springframework.web.client.HttpServerErrorException
 import org.springframework.web.client.RestTemplate
 import javax.annotation.PostConstruct
 
@@ -99,17 +101,30 @@ class ServerApplicationTests {
         variants.forEach { mongoTemplate.insert(it) }
     }
 
+    @After
+    fun removeDatabase() {
+        mongoTemplate.remove(Variant::class.java)
+    }
+
     @Test
     fun query() {
         assertThat(queryVariant(Query(variantId = "rs6054257")).single()).isEqualTo(variants.first())
-
-        assertThat(queryVariant(Query(datasetId = "test"))).isEqualTo(variants)
 
         assertThat(queryVariant(Query(referenceName = "20", start = 1230237)).single()).isEqualTo(variants[3])
 
         assertThat(queryVariant(Query(referenceName = "20", start = 1230237, end = 1234567))).isEqualTo(variants.subList(3, 5))
 
         assertThat(queryVariant(Query(geneSymbol = "DEFB125")).single()).isEqualTo(variants.first())
+    }
+
+    @Test(expected = HttpServerErrorException::class)
+    fun queryOnlyDatasetId() {
+        queryVariant(Query(datasetId = "test"))
+    }
+
+    @Test(expected = HttpServerErrorException::class)
+    fun queryOnlyAssemblyId() {
+        queryVariant(Query(assemblyId = "GCRh38"))
     }
 
     private fun queryVariant(query: Query): List<Variant> {

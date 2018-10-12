@@ -14,7 +14,7 @@ import org.springframework.boot.web.client.RestTemplateBuilder
 import org.springframework.boot.web.server.LocalServerPort
 import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.test.context.junit4.SpringRunner
-import org.springframework.web.client.HttpServerErrorException
+import org.springframework.web.client.HttpClientErrorException
 import org.springframework.web.client.RestTemplate
 import javax.annotation.PostConstruct
 
@@ -117,12 +117,12 @@ class ServerApplicationTests {
         assertThat(queryVariant(Query(geneSymbol = "DEFB125")).single()).isEqualTo(variants.first())
     }
 
-    @Test(expected = HttpServerErrorException::class)
+    @Test(expected = HttpClientErrorException::class)
     fun queryOnlyDatasetId() {
         queryVariant(Query(datasetId = "test"))
     }
 
-    @Test(expected = HttpServerErrorException::class)
+    @Test(expected = HttpClientErrorException::class)
     fun queryOnlyAssemblyId() {
         queryVariant(Query(assemblyId = "GCRh38"))
     }

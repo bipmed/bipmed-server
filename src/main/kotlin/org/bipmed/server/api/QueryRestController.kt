@@ -1,5 +1,6 @@
 package org.bipmed.server.api
 
+import org.bipmed.server.error.InvalidQuery
 import org.bipmed.server.query.QueryService
 import org.bipmed.server.query.Query
 import org.springframework.web.bind.annotation.CrossOrigin
@@ -16,7 +17,7 @@ class QueryRestController (private val queryService: QueryService) {
         if (query.variantId != null || query.geneSymbol != null || (query.referenceName != null && query.start != null)) {
             return QueryResponse(queryService.query(query))
         } else {
-            throw IllegalArgumentException("Invalid query.")
+            throw InvalidQuery()
         }
     }
 } 

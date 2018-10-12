@@ -103,7 +103,7 @@ class ServerApplicationTests {
 
     @After
     fun removeDatabase() {
-        mongoTemplate.remove(Variant::class.java)
+        mongoTemplate.dropCollection(Variant::class.java)
     }
 
     @Test

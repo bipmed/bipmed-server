@@ -3,9 +3,9 @@ package org.bipmed.server.query
 import org.bipmed.server.variant.Variant
 import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.data.mongodb.core.query.Criteria.where
-import org.springframework.stereotype.Component
+import org.springframework.stereotype.Service
 
-@Component
+@Service
 class QueryService(private val mongoTemplate: MongoTemplate) {
 
     fun query(query: Query): List<Variant> {

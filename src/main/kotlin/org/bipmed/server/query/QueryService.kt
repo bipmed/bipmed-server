@@ -42,6 +42,10 @@ class QueryService(private val mongoTemplate: MongoTemplate) {
             }
         }
 
-        return mongoTemplate.find(mongoQuery, Variant::class.java)
+        val variants = mongoTemplate.find(mongoQuery, Variant::class.java)
+
+        mongoTemplate.insert(query.copy(variants = variants.size))
+
+        return variants
     }
 }

@@ -1,5 +1,9 @@
 package org.bipmed.server.query
 
+import com.fasterxml.jackson.annotation.JsonIgnore
+import org.springframework.data.mongodb.core.mapping.Document
+
+@Document
 data class Query (
         val variantId: String? = null,
         val assemblyId: String? = null,
@@ -7,5 +11,8 @@ data class Query (
         val referenceName: String? = null,
         val start: Long? = null,
         val end: Long? = null,
-        val geneSymbol: String? = null
+        val geneSymbol: String? = null,
+
+        @JsonIgnore
+        val variants: Int? = null
 )

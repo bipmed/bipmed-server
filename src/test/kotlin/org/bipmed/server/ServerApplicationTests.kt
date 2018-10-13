@@ -108,13 +108,27 @@ class ServerApplicationTests {
 
     @Test
     fun query() {
-        assertThat(queryVariant(Query(variantId = "rs6054257")).single()).isEqualTo(variants.first())
+        val queries = listOf(
+                Query(variantId = "rs6054257"),
+                Query(referenceName = "20", start = 1230237),
+                Query(referenceName = "20", start = 1230237, end = 1234567),
+                Query(geneSymbol = "DEFB125")
+        )
 
-        assertThat(queryVariant(Query(referenceName = "20", start = 1230237)).single()).isEqualTo(variants[3])
+        assertThat(queryVariant(queries[0]).single()).isEqualTo(variants.first())
 
-        assertThat(queryVariant(Query(referenceName = "20", start = 1230237, end = 1234567))).isEqualTo(variants.subList(3, 5))
+        assertThat(queryVariant(queries[1]).single()).isEqualTo(variants[3])
 
-        assertThat(queryVariant(Query(geneSymbol = "DEFB125")).single()).isEqualTo(variants.first())
+        assertThat(queryVariant(queries[2])).isEqualTo(variants.subList(3, 5))
+
+        assertThat(queryVariant(queries[3]).single()).isEqualTo(variants.first())
+
+        with (mongoTemplate.findAll(Query::class.java)) {
+            assertThat(this[0]).isEqualTo(queries[0].copy(variants = 1))
+            assertThat(this[1]).isEqualTo(queries[1].copy(variants = 1))
+            assertThat(this[2]).isEqualTo(queries[2].copy(variants = 2))
+            assertThat(this[3]).isEqualTo(queries[3].copy(variants = 1))
+        }
     }
 
     @Test(expected = HttpClientErrorException::class)

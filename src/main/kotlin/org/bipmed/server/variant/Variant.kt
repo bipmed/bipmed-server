@@ -3,7 +3,7 @@ package org.bipmed.server.variant
 import org.springframework.data.mongodb.core.mapping.Document
 
 @Document
-data class Variant (
+data class Variant(
         val variantIds: List<String> = emptyList(),
         val datasetId: String,
         val assemblyId: String,
@@ -15,19 +15,17 @@ data class Variant (
         val alleleFrequency: List<Number> = emptyList(),
         val sampleCount: Long? = null,
 
-        val minCov: Int? = null,
-        val q25Cov: Number? = null,
-        val medianCov: Number? = null,
-        val q75Cov: Number? = null,
-        val maxCov: Int? = null,
-        val meanCov: Number? = null,
-
-        val minGenQual: Int? = null,
-        val q25GenQual: Number? = null,
-        val medianGenQual: Number? = null,
-        val q75GenQual: Number? = null,
-        val maxGenQual: Int? = null,
-        val meanGenQual: Number? = null,
+        val coverage: Statistics? = null,
+        val genotypeQuality: Statistics? = null,
 
         val clnsig: String? = null
-)
+) {
+    data class Statistics(
+            val min: Int? = null,
+            val q25: Number? = null,
+            val median: Number? = null,
+            val q75: Number? = null,
+            val max: Int? = null,
+            val mean: Number? = null
+    )
+}

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController
 class DataTablesRestController(private val queryService: QueryService) {
 
     @PostMapping("/datatables")
-    fun search(@RequestBody query: Query): QueryResponse {
+    fun search(@RequestBody query: Query): DataTablesOutput {
         if (query.snpId != null || query.geneSymbol != null || (query.referenceName != null && query.start != null)) {
             val variants = queryService.query(query).map { variant ->
                 variant.copy(snpIds = variant.snpIds.map { snpId ->
@@ -25,7 +25,7 @@ class DataTablesRestController(private val queryService: QueryService) {
                     }
                 })
             }
-            return QueryResponse(variants)
+            return DataTablesOutput(variants)
         } else {
             throw InvalidQuery()
         }

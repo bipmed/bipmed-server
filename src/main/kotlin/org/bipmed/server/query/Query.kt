@@ -5,7 +5,7 @@ import org.springframework.data.mongodb.core.mapping.Document
 
 @Document
 data class Query (
-        val variantId: String? = null,
+        val snpId: String? = null,
         val assemblyId: String? = null,
         val datasetId: String? = null,
         val referenceName: String? = null,

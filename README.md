@@ -66,7 +66,7 @@ mongoimport --collection variant --db bipmed --jsonArray --file test-data.json
 ## Querying server
 
 ```bash
-curl http://localhost:8080/ -H "Content-type: application/json" -d '{"variantId":"rs6054257"}'
+curl http://localhost:8080/ -H "Content-type: application/json" -d snpId
 curl http://localhost:8080/ -H "Content-type: application/json" -d '{"datasetId":"test"}'
 curl http://localhost:8080/ -H "Content-type: application/json" -d '{"referenceName":"20", "start":1230237}'
 curl http://localhost:8080/ -H "Content-type: application/json" -d '{"referenceName":"20", "start":1230237, "end":1234567}'

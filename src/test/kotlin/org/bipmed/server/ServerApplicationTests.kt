@@ -37,7 +37,7 @@ class ServerApplicationTests {
             Variant(
                     datasetId = "test",
                     assemblyId = "GCRh38",
-                    variantIds = listOf("rs6054257"),
+                    snpIds = listOf("rs6054257"),
                     referenceName = "20",
                     start = 14370,
                     referenceBases = "G",
@@ -59,7 +59,7 @@ class ServerApplicationTests {
             Variant(
                     datasetId = "test",
                     assemblyId = "GCRh38",
-                    variantIds = listOf("rs6040355"),
+                    snpIds = listOf("rs6040355"),
                     referenceName = "20",
                     start = 1110696,
                     referenceBases = "A",
@@ -80,7 +80,7 @@ class ServerApplicationTests {
             Variant(
                     datasetId = "test",
                     assemblyId = "GCRh38",
-                    variantIds = listOf("microsat1"),
+                    snpIds = listOf("microsat1"),
                     referenceName = "20",
                     start = 1234567,
                     referenceBases = "GTC",
@@ -109,7 +109,7 @@ class ServerApplicationTests {
     @Test
     fun query() {
         val queries = listOf(
-                Query(variantId = "rs6054257"),
+                Query(snpId = "rs6054257"),
                 Query(referenceName = "20", start = 1230237),
                 Query(referenceName = "20", start = 1230237, end = 1234567),
                 Query(geneSymbol = "DEFB125")

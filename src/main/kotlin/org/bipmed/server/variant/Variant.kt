@@ -4,7 +4,7 @@ import org.springframework.data.mongodb.core.mapping.Document
 
 @Document
 data class Variant(
-        val variantIds: List<String> = emptyList(),
+        val snpIds: List<String> = emptyList(),
         val datasetId: String,
         val assemblyId: String,
         val referenceName: String,

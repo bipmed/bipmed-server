@@ -24,8 +24,8 @@ class QueryService(private val mongoTemplate: MongoTemplate) {
                 mongoQuery.addCriteria(where("datasetId").`is`(datasetId))
             }
 
-            if (variantId != null) {
-                mongoQuery.addCriteria(where("variantIds").all(variantId))
+            if (snpId != null) {
+                mongoQuery.addCriteria(where("snpIds").all(snpId))
             }
 
             when {

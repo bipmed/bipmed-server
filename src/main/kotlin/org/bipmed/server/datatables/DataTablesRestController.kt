@@ -16,8 +16,14 @@ class DataTablesRestController(private val queryService: QueryService) {
     @PostMapping("/datatables")
     fun search(@RequestBody query: Query): QueryResponse {
         if (query.snpId != null || query.geneSymbol != null || (query.referenceName != null && query.start != null)) {
-            val variants = queryService.query(query).map {
-                variant -> variant.copy(snpIds = variant.snpIds.map { snpId -> "<a target='_blank' href='https://www.ncbi.nlm.nih.gov/snp/$snpId'>$snpId</a>" })
+            val variants = queryService.query(query).map { variant ->
+                variant.copy(snpIds = variant.snpIds.map { snpId ->
+                    if (snpId.startsWith("rs")) {
+                        "<a target='_blank' href='https://www.ncbi.nlm.nih.gov/snp/$snpId'>$snpId</a>"
+                    } else {
+                        snpId
+                    }
+                })
             }
             return QueryResponse(variants)
         } else {

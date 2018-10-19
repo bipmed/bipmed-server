@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import org.springframework.data.mongodb.core.mapping.Document
 
 @Document
-data class Query (
+data class Query(
         val snpId: String? = null,
         val assemblyId: String? = null,
         val datasetId: String? = null,

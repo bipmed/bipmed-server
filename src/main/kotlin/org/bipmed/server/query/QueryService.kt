@@ -108,7 +108,6 @@ class QueryService(private val mongoTemplate: MongoTemplate, private val variant
 
         return DataTablesOutput(
                 draw = input.draw,
-                recordsTotal = variantRepository.count(),
                 recordsFiltered = mongoTemplate.count(mongoQuery, Variant::class.java),
                 data = data
         )

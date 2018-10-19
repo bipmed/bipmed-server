@@ -15,7 +15,7 @@ class QueryRestController(private val queryService: QueryService) {
     @PostMapping
     fun query(@RequestBody query: Query): QueryResponse {
         if (query.snpId != null || query.geneSymbol != null || (query.referenceName != null && query.start != null)) {
-            return QueryResponse(queryService.query(query))
+            return QueryResponse(queryService.search(query))
         } else {
             throw InvalidQuery()
         }

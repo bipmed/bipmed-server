@@ -1,7 +1,7 @@
-package org.bipmed.server.variant
+package org.bipmed.server.query
 
 import org.springframework.data.mongodb.repository.MongoRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface VariantRepository : MongoRepository<Variant, String>
+interface QueryRepository : MongoRepository<Query, String>

@@ -15,7 +15,7 @@ class DataTablesRestController(private val queryService: QueryService) {
         return if (input.query.snpId != null || input.query.geneSymbol != null || (input.query.referenceName != null && input.query.start != null)) {
             queryService.search(input)
         } else {
-            DataTablesOutput(draw = input.draw, error = "Invalid query.")
+            DataTablesOutput(draw = input.draw, error = "Invalid search.")
         }
     }
 }

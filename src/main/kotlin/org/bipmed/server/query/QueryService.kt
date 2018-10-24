@@ -26,12 +26,12 @@ class QueryService(private val mongoTemplate: MongoTemplate, private val variant
     fun search(input: DataTablesInput): DataTablesOutput {
         val mongoQuery = org.springframework.data.mongodb.core.query.Query()
 
-        if (input.data == null || input.data.isEmpty()) {
+        if (input.queries == null || input.queries.isEmpty()) {
 
-        } else if (input.data.size == 1) {
-            mongoQuery.addCriteria(getCriteria(input.data.single()))
+        } else if (input.queries.size == 1) {
+            mongoQuery.addCriteria(getCriteria(input.queries.single()))
         } else {
-            val criteriaList = input.data.map {
+            val criteriaList = input.queries.map {
                 getCriteria(it)
             }
             mongoQuery.addCriteria(Criteria().orOperator(*criteriaList.toTypedArray()))
@@ -44,8 +44,8 @@ class QueryService(private val mongoTemplate: MongoTemplate, private val variant
 
         val variants = mongoTemplate.find(mongoQuery, Variant::class.java)
 
-        if (input.draw == 0 && input.data != null) {
-            input.data.forEach {
+        if (input.draw == 0 && input.queries != null) {
+            input.queries.forEach {
                 mongoTemplate.insert(it.copy(variants = variants.size))
             }
         }

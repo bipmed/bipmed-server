@@ -141,7 +141,7 @@ class ServerApplicationTests {
                 draw = 1,
                 start = 0,
                 length = 3,
-                data = listOf(Query(referenceName = "20", start = 14370, end = 1230237))
+                queries = listOf(Query(referenceName = "20", start = 14370, end = 1230237))
         )
 
         var output = queryVariantPaging(input)
@@ -157,7 +157,7 @@ class ServerApplicationTests {
         assertThat(output.recordsFiltered).isEqualTo(4)
         assertThat(output.data).hasSize(1)
 
-        input = DataTablesInput(data = listOf(Query()))
+        input = DataTablesInput(queries = listOf(Query()))
         output = queryVariantPaging(input)
         assertThat(output.data!!).hasSize(variants.size)
     }
@@ -165,7 +165,7 @@ class ServerApplicationTests {
     @Test
     fun multipleQueries() {
         val output = queryVariantPaging(DataTablesInput(
-                data = listOf(Query(snpId = "rs6040355"), Query(geneSymbol = "DEFB125"), Query(referenceName = "1", start = 10, end = 20
+                queries = listOf(Query(snpId = "rs6040355"), Query(geneSymbol = "DEFB125"), Query(referenceName = "1", start = 10, end = 20
         ))))
         assertThat(output.data).hasSize(2)
     }

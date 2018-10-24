@@ -7,5 +7,5 @@ data class DataTablesInput(
         val start: Int = 0,
         val length: Int = -1,
 
-        val data: List<Query>?
+        val queries: List<Query>?
 )

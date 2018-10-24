@@ -4,7 +4,6 @@ import org.bipmed.server.datatables.DataTablesInput
 import org.bipmed.server.datatables.DataTablesOutput
 import org.bipmed.server.variant.Variant
 import org.bipmed.server.variant.VariantRepository
-import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.data.mongodb.core.query.Criteria.where
@@ -33,7 +32,9 @@ class QueryService(private val mongoTemplate: MongoTemplate, private val variant
 
         val variants = mongoTemplate.find(mongoQuery, Variant::class.java)
 
-        mongoTemplate.insert(input.query.copy(variants = variants.size))
+        if (input.draw == 0) {
+            mongoTemplate.insert(input.query.copy(variants = variants.size))
+        }
 
         val data = variants.map { variant ->
             variant.copy(snpIds = variant.snpIds.map { snpId ->

@@ -5,6 +5,7 @@ import org.bipmed.server.api.QueryResponse
 import org.bipmed.server.datatables.DataTablesInput
 import org.bipmed.server.datatables.DataTablesOutput
 import org.bipmed.server.query.Query
+import org.bipmed.server.query.QueryRepository
 import org.bipmed.server.variant.Variant
 import org.bipmed.server.variant.VariantRepository
 import org.junit.After
@@ -33,7 +34,7 @@ class ServerApplicationTests {
     private lateinit var variantRepository: VariantRepository
 
     @Autowired
-    private lateinit var queryRepository: VariantRepository
+    private lateinit var queryRepository: QueryRepository
 
     private lateinit var client: RestTemplate
 

@@ -12,10 +12,6 @@ class DataTablesRestController(private val queryService: QueryService) {
 
     @PostMapping("/datatables")
     fun search(@RequestBody input: DataTablesInput): DataTablesOutput {
-        return if (input.query.snpId != null || input.query.geneSymbol != null || (input.query.referenceName != null && input.query.start != null)) {
-            queryService.search(input)
-        } else {
-            DataTablesOutput(draw = input.draw, error = "Invalid search.")
-        }
+        return queryService.search(input)
     }
 }

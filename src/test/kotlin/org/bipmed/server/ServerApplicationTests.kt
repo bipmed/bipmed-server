@@ -155,6 +155,9 @@ class ServerApplicationTests {
         assertThat(output.recordsFiltered).isEqualTo(4)
         assertThat(output.data).hasSize(1)
 
+        input = DataTablesInput(query = Query())
+        output = queryVariantPaging(input)
+        assertThat(output.data!!).hasSize(variants.size)
     }
 
     @Test(expected = HttpClientErrorException::class)

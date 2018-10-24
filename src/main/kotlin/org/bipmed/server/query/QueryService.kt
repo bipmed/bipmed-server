@@ -6,14 +6,15 @@ import org.bipmed.server.variant.Variant
 import org.bipmed.server.variant.VariantRepository
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.mongodb.core.MongoTemplate
-import org.springframework.data.mongodb.core.query.Criteria.where
+import org.springframework.data.mongodb.core.query.Criteria
 import org.springframework.stereotype.Service
 
 @Service
 class QueryService(private val mongoTemplate: MongoTemplate, private val variantRepository: VariantRepository) {
 
     fun search(query: Query): List<Variant> {
-        val mongoQuery = getMongoQuery(query)
+        val mongoQuery = org.springframework.data.mongodb.core.query.Query()
+        mongoQuery.addCriteria(getCriteria(query))
 
         val variants = mongoTemplate.find(mongoQuery, Variant::class.java)
 
@@ -23,7 +24,18 @@ class QueryService(private val mongoTemplate: MongoTemplate, private val variant
     }
 
     fun search(input: DataTablesInput): DataTablesOutput {
-        val mongoQuery = getMongoQuery(input.query)
+        val mongoQuery = org.springframework.data.mongodb.core.query.Query()
+
+        if (input.data == null || input.data.isEmpty()) {
+
+        } else if (input.data.size == 1) {
+            mongoQuery.addCriteria(getCriteria(input.data.single()))
+        } else {
+            val criteriaList = input.data.map {
+                getCriteria(it)
+            }
+            mongoQuery.addCriteria(Criteria().orOperator(*criteriaList.toTypedArray()))
+        }
 
         if (input.length > 0) {
             val pageable = PageRequest.of(input.start / input.length, input.length)
@@ -32,8 +44,10 @@ class QueryService(private val mongoTemplate: MongoTemplate, private val variant
 
         val variants = mongoTemplate.find(mongoQuery, Variant::class.java)
 
-        if (input.draw == 0) {
-            mongoTemplate.insert(input.query.copy(variants = variants.size))
+        if (input.draw == 0 && input.data != null) {
+            input.data.forEach {
+                mongoTemplate.insert(it.copy(variants = variants.size))
+            }
         }
 
         val data = variants.map { variant ->
@@ -54,40 +68,36 @@ class QueryService(private val mongoTemplate: MongoTemplate, private val variant
         )
     }
 
-    private fun getMongoQuery(query: Query): org.springframework.data.mongodb.core.query.Query {
-        val mongoQuery = org.springframework.data.mongodb.core.query.Query()
+    private fun getCriteria(query: Query): Criteria {
+        val criteria = Criteria()
 
         with(query) {
             if (assemblyId != null) {
-                mongoQuery.addCriteria(where("assemblyId").`is`(assemblyId))
+                criteria.and("assemblyId").`is`(assemblyId)
             }
 
             if (geneSymbol != null) {
-                mongoQuery.addCriteria(where("geneSymbol").`is`(geneSymbol))
+                criteria.and("geneSymbol").`is`(geneSymbol)
             }
 
             if (datasetId != null) {
-                mongoQuery.addCriteria(where("datasetId").`is`(datasetId))
+                criteria.and("datasetId").`is`(datasetId)
             }
 
             if (snpId != null) {
-                mongoQuery.addCriteria(where("snpIds").all(snpId))
+                criteria.and("snpIds").all(snpId)
             }
 
-            when {
-                (referenceName != null && start != null && end != null) ->
-                    mongoQuery.addCriteria(where("referenceName").`is`(referenceName)
-                            .and("start").gte(start).lte(end))
-
-                (referenceName != null && start != null) ->
-                    mongoQuery.addCriteria(where("referenceName").`is`(referenceName)
-                            .and("start").`is`(start))
-
-                else -> {
-                }
+            if (referenceName != null && start != null && end != null) {
+                criteria.and("referenceName").`is`(referenceName)
+                        .and("start").gte(start).lte(end)
+            } else if (referenceName != null && start != null) {
+                criteria.and("referenceName").`is`(referenceName)
+                        .and("start").`is`(start)
+            } else {
             }
         }
 
-        return mongoQuery
+        return criteria
     }
 }

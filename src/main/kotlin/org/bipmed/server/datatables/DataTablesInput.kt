@@ -5,7 +5,7 @@ import org.bipmed.server.query.Query
 data class DataTablesInput(
         val draw: Int = 1,
         val start: Int = 0,
-        val length: Int = 10,
+        val length: Int = -1,
 
-        val query: Query
+        val data: List<Query>?
 )

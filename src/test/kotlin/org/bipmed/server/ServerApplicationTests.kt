@@ -94,6 +94,13 @@ class ServerApplicationTests {
             )
     )
 
+    private val queries = listOf(
+            Query(snpId = "rs6054257"),
+            Query(referenceName = "20", start = 1230237),
+            Query(referenceName = "20", start = 1230237, end = 1234567),
+            Query(geneSymbol = "DEFB125")
+    )
+
     @Before
     fun init() {
         client = restTemplateBuilder
@@ -110,12 +117,7 @@ class ServerApplicationTests {
 
     @Test
     fun query() {
-        val queries = listOf(
-                Query(snpId = "rs6054257"),
-                Query(referenceName = "20", start = 1230237),
-                Query(referenceName = "20", start = 1230237, end = 1234567),
-                Query(geneSymbol = "DEFB125")
-        )
+
 
         assertThat(queryVariant(queries[0]).single()).isEqualTo(variants.first())
 
@@ -139,7 +141,7 @@ class ServerApplicationTests {
                 draw = 1,
                 start = 0,
                 length = 3,
-                query = Query(referenceName = "20", start = 14370, end = 1230237)
+                data = listOf(Query(referenceName = "20", start = 14370, end = 1230237))
         )
 
         var output = queryVariantPaging(input)
@@ -155,9 +157,17 @@ class ServerApplicationTests {
         assertThat(output.recordsFiltered).isEqualTo(4)
         assertThat(output.data).hasSize(1)
 
-        input = DataTablesInput(query = Query())
+        input = DataTablesInput(data = listOf(Query()))
         output = queryVariantPaging(input)
         assertThat(output.data!!).hasSize(variants.size)
+    }
+
+    @Test
+    fun multipleQueries() {
+        val output = queryVariantPaging(DataTablesInput(
+                data = listOf(Query(snpId = "rs6040355"), Query(geneSymbol = "DEFB125"), Query(referenceName = "1", start = 10, end = 20
+        ))))
+        assertThat(output.data).hasSize(2)
     }
 
     @Test(expected = HttpClientErrorException::class)

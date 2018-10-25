@@ -18,7 +18,7 @@ class QueryService(private val mongoTemplate: MongoTemplate, private val variant
 
         val variants = mongoTemplate.find(mongoQuery, Variant::class.java)
 
-        mongoTemplate.insert(query.copy(variants = variants.size))
+        mongoTemplate.insert(query)
 
         return variants
     }
@@ -46,7 +46,7 @@ class QueryService(private val mongoTemplate: MongoTemplate, private val variant
 
         if (input.draw == 0 && input.queries != null) {
             input.queries.forEach {
-                mongoTemplate.insert(it.copy(variants = variants.size))
+                mongoTemplate.insert(it)
             }
         }
 

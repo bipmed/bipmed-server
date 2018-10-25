@@ -131,10 +131,10 @@ class ServerApplicationTests {
         assertThat(queryVariant(queries[3]).single()).isEqualTo(variants.first())
 
         with(queryRepository.findAll()) {
-            assertThat(this[0]).isEqualTo(queries[0].copy(variants = 1))
-            assertThat(this[1]).isEqualTo(queries[1].copy(variants = 1))
-            assertThat(this[2]).isEqualTo(queries[2].copy(variants = 2))
-            assertThat(this[3]).isEqualTo(queries[3].copy(variants = 1))
+            assertThat(this[0]).isEqualTo(queries[0])
+            assertThat(this[1]).isEqualTo(queries[1])
+            assertThat(this[2]).isEqualTo(queries[2])
+            assertThat(this[3]).isEqualTo(queries[3])
         }
     }
 

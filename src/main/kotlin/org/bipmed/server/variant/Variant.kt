@@ -7,6 +7,7 @@ data class Variant(
         val snpIds: List<String> = emptyList(),
         val datasetId: String,
         val assemblyId: String,
+        val totalSamples: Long,
         val referenceName: String,
         val start: Long,
         val referenceBases: String,

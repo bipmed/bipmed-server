@@ -42,6 +42,7 @@ class ServerApplicationTests {
             Variant(
                     datasetId = "test",
                     assemblyId = "GCRh38",
+                    totalSamples = 4,
                     snpIds = listOf("rs6054257"),
                     referenceName = "20",
                     start = 14370,
@@ -54,6 +55,7 @@ class ServerApplicationTests {
             Variant(
                     datasetId = "test",
                     assemblyId = "GCRh38",
+                    totalSamples = 4,
                     referenceName = "20",
                     start = 17330,
                     referenceBases = "A",
@@ -64,6 +66,7 @@ class ServerApplicationTests {
             Variant(
                     datasetId = "test",
                     assemblyId = "GCRh38",
+                    totalSamples = 4,
                     snpIds = listOf("rs6040355"),
                     referenceName = "20",
                     start = 1110696,
@@ -76,6 +79,7 @@ class ServerApplicationTests {
             Variant(
                     datasetId = "test",
                     assemblyId = "GCRh38",
+                    totalSamples = 4,
                     referenceName = "20",
                     start = 1230237,
                     referenceBases = "T",
@@ -85,6 +89,7 @@ class ServerApplicationTests {
             Variant(
                     datasetId = "test",
                     assemblyId = "GCRh38",
+                    totalSamples = 4,
                     snpIds = listOf("microsat1"),
                     referenceName = "20",
                     start = 1234567,
@@ -117,8 +122,6 @@ class ServerApplicationTests {
 
     @Test
     fun query() {
-
-
         assertThat(queryVariant(queries[0]).single()).isEqualTo(variants.first())
 
         assertThat(queryVariant(queries[1]).single()).isEqualTo(variants[3])

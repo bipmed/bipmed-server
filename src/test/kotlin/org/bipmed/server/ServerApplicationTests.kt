@@ -5,9 +5,7 @@ import org.bipmed.server.api.QueryResponse
 import org.bipmed.server.datatables.DataTablesInput
 import org.bipmed.server.datatables.DataTablesOutput
 import org.bipmed.server.query.Query
-import org.bipmed.server.query.QueryRepository
 import org.bipmed.server.variant.Variant
-import org.bipmed.server.variant.VariantRepository
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -19,6 +17,8 @@ import org.springframework.boot.web.server.LocalServerPort
 import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.web.client.HttpClientErrorException
 import org.springframework.web.client.RestTemplate
+import org.springframework.hateoas.Resources
+import java.net.URI
 
 @RunWith(SpringRunner::class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -29,12 +29,6 @@ class ServerApplicationTests {
 
     @Autowired
     private lateinit var restTemplateBuilder: RestTemplateBuilder
-
-    @Autowired
-    private lateinit var variantRepository: VariantRepository
-
-    @Autowired
-    private lateinit var queryRepository: QueryRepository
 
     private lateinit var client: RestTemplate
 
@@ -106,36 +100,35 @@ class ServerApplicationTests {
             Query(geneSymbol = "DEFB125")
     )
 
+    private lateinit var variantUris: List<URI>
+
     @Before
     fun init() {
         client = restTemplateBuilder
                 .rootUri("http://localhost:$localPort")
                 .build()
 
-        variants.forEach { variantRepository.insert(it) }
+        variantUris = variants.mapNotNull { client.postForLocation("/variants", it) }
     }
 
     @After
     fun tearDown() {
-        variantRepository.deleteAll()
+        variantUris.forEach { client.delete(it) }
     }
 
     @Test
     fun query() {
-        assertThat(queryVariant(queries[0]).single()).isEqualTo(variants.first())
+        assertThat(queryVariant(queries[0]).single()).isEqualTo(getAllVariants().first())
 
-        assertThat(queryVariant(queries[1]).single()).isEqualTo(variants[3])
+        assertThat(queryVariant(queries[1]).single()).isEqualTo(getAllVariants()[3])
 
-        assertThat(queryVariant(queries[2])).isEqualTo(variants.subList(3, 5))
+        assertThat(queryVariant(queries[2])).isEqualTo(getAllVariants().subList(3, 5))
 
-        assertThat(queryVariant(queries[3]).single()).isEqualTo(variants.first())
+        assertThat(queryVariant(queries[3]).single()).isEqualTo(getAllVariants().first())
+    }
 
-        with(queryRepository.findAll()) {
-            assertThat(this[0]).isEqualTo(queries[0])
-            assertThat(this[1]).isEqualTo(queries[1])
-            assertThat(this[2]).isEqualTo(queries[2])
-            assertThat(this[3]).isEqualTo(queries[3])
-        }
+    private fun getAllVariants(): List<Variant> {
+        return client.getForObject("/variants", VariantResources::class.java)!!.content.toList()
     }
 
     @Test
@@ -169,7 +162,7 @@ class ServerApplicationTests {
     fun multipleQueries() {
         val output = queryVariantPaging(DataTablesInput(
                 queries = listOf(Query(snpId = "rs6040355"), Query(geneSymbol = "DEFB125"), Query(referenceName = "1", start = 10, end = 20
-        ))))
+                ))))
         assertThat(output.data).hasSize(2)
     }
 
@@ -184,11 +177,12 @@ class ServerApplicationTests {
     }
 
     private fun queryVariant(query: Query): List<Variant> {
-        return client.postForObject("/", query, QueryResponse::class.java)!!.variants
+        return client.postForObject("/search", query, QueryResponse::class.java)!!.variants
     }
 
     private fun queryVariantPaging(input: DataTablesInput): DataTablesOutput {
         return client.postForObject("/datatables", input, DataTablesOutput::class.java)!!
     }
 
+    class VariantResources : Resources<Variant>()
 }

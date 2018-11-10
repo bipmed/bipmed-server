@@ -16,11 +16,7 @@ class QueryService(private val mongoTemplate: MongoTemplate, private val variant
         val mongoQuery = org.springframework.data.mongodb.core.query.Query()
         mongoQuery.addCriteria(getCriteria(query))
 
-        val variants = mongoTemplate.find(mongoQuery, Variant::class.java)
-
-        mongoTemplate.insert(query)
-
-        return variants
+        return mongoTemplate.find(mongoQuery, Variant::class.java)
     }
 
     fun search(input: DataTablesInput): DataTablesOutput {
@@ -43,12 +39,6 @@ class QueryService(private val mongoTemplate: MongoTemplate, private val variant
         }
 
         val variants = mongoTemplate.find(mongoQuery, Variant::class.java)
-
-        if (input.draw == 0 && input.queries != null) {
-            input.queries.forEach {
-                mongoTemplate.insert(it)
-            }
-        }
 
         val data = variants.map { variant ->
             variant.copy(snpIds = variant.snpIds.map { snpId ->

@@ -1,9 +1,14 @@
 package org.bipmed.server.variant
 
+import com.fasterxml.jackson.annotation.JsonIgnore
+import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
 
 @Document
 data class Variant(
+        @JsonIgnore
+        @Id
+        val id: String? = null,
         val snpIds: List<String> = emptyList(),
         val datasetId: String,
         val assemblyId: String,

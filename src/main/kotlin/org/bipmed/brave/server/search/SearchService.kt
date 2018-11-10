@@ -1,7 +1,6 @@
-package org.bipmed.brave.server.query
+package org.bipmed.brave.server.search
 
-import org.bipmed.brave.server.datatables.DataTablesInput
-import org.bipmed.brave.server.datatables.DataTablesOutput
+import org.bipmed.brave.server.query.Query
 import org.bipmed.brave.server.variant.Variant
 import org.bipmed.brave.server.variant.VariantRepository
 import org.springframework.data.domain.PageRequest
@@ -10,26 +9,13 @@ import org.springframework.data.mongodb.core.query.Criteria
 import org.springframework.stereotype.Service
 
 @Service
-class QueryService(private val mongoTemplate: MongoTemplate, private val variantRepository: VariantRepository) {
+class SearchService(private val mongoTemplate: MongoTemplate, private val variantRepository: VariantRepository) {
 
-    fun search(query: Query): List<Variant> {
-        val mongoQuery = org.springframework.data.mongodb.core.query.Query()
-        mongoQuery.addCriteria(getCriteria(query))
-
-        return mongoTemplate.find(mongoQuery, Variant::class.java)
-    }
-
-    fun search(input: DataTablesInput): DataTablesOutput {
+    fun search(input: SearchInput): SearchResponse {
         val mongoQuery = org.springframework.data.mongodb.core.query.Query()
 
-        if (input.queries == null || input.queries.isEmpty()) {
-
-        } else if (input.queries.size == 1) {
-            mongoQuery.addCriteria(getCriteria(input.queries.single()))
-        } else {
-            val criteriaList = input.queries.map {
-                getCriteria(it)
-            }
+        if (input.queries != null && !input.queries.isEmpty()) {
+            val criteriaList = input.queries.map { getCriteria(it) }
             mongoQuery.addCriteria(Criteria().orOperator(*criteriaList.toTypedArray()))
         }
 
@@ -40,21 +26,11 @@ class QueryService(private val mongoTemplate: MongoTemplate, private val variant
 
         val variants = mongoTemplate.find(mongoQuery, Variant::class.java)
 
-        val data = variants.map { variant ->
-            variant.copy(snpIds = variant.snpIds.map { snpId ->
-                if (snpId.startsWith("rs")) {
-                    "<a target='_blank' href='https://www.ncbi.nlm.nih.gov/snp/$snpId'>$snpId</a>"
-                } else {
-                    snpId
-                }
-            })
-        }
-
-        return DataTablesOutput(
+        return SearchResponse(
                 draw = input.draw,
                 recordsTotal = variantRepository.count(),
                 recordsFiltered = mongoTemplate.count(mongoQuery, Variant::class.java),
-                data = data
+                data = variants
         )
     }
 

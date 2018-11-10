@@ -1,10 +1,9 @@
 package org.bipmed.brave.server
 
 import org.assertj.core.api.Assertions.assertThat
-import org.bipmed.brave.server.api.QueryResponse
-import org.bipmed.brave.server.datatables.DataTablesInput
-import org.bipmed.brave.server.datatables.DataTablesOutput
 import org.bipmed.brave.server.query.Query
+import org.bipmed.brave.server.search.SearchInput
+import org.bipmed.brave.server.search.SearchResponse
 import org.bipmed.brave.server.variant.Variant
 import org.junit.After
 import org.junit.Before
@@ -14,10 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.web.client.RestTemplateBuilder
 import org.springframework.boot.web.server.LocalServerPort
-import org.springframework.test.context.junit4.SpringRunner
-import org.springframework.web.client.HttpClientErrorException
-import org.springframework.web.client.RestTemplate
 import org.springframework.hateoas.Resources
+import org.springframework.test.context.junit4.SpringRunner
+import org.springframework.web.client.RestTemplate
 import java.net.URI
 
 @RunWith(SpringRunner::class)
@@ -118,13 +116,13 @@ class ServerApplicationTests {
 
     @Test
     fun query() {
-        assertThat(queryVariant(queries[0]).single()).isEqualTo(getAllVariants().first())
+        assertThat(queryVariant(SearchInput(queries = listOf(queries[0]))).data!!.single()).isEqualTo(getAllVariants().first())
 
-        assertThat(queryVariant(queries[1]).single()).isEqualTo(getAllVariants()[3])
+        assertThat(queryVariant(SearchInput(queries = listOf(queries[1]))).data!!.single()).isEqualTo(getAllVariants()[3])
 
-        assertThat(queryVariant(queries[2])).isEqualTo(getAllVariants().subList(3, 5))
+        assertThat(queryVariant(SearchInput(queries = listOf(queries[2]))).data!!).isEqualTo(getAllVariants().subList(3, 5))
 
-        assertThat(queryVariant(queries[3]).single()).isEqualTo(getAllVariants().first())
+        assertThat(queryVariant(SearchInput(queries = listOf(queries[3]))).data!!.single()).isEqualTo(getAllVariants().first())
     }
 
     private fun getAllVariants(): List<Variant> {
@@ -133,55 +131,41 @@ class ServerApplicationTests {
 
     @Test
     fun queryPaging() {
-        var input = DataTablesInput(
+        var input = SearchInput(
                 draw = 1,
                 start = 0,
                 length = 3,
                 queries = listOf(Query(referenceName = "20", start = 14370, end = 1230237))
         )
 
-        var output = queryVariantPaging(input)
+        var output = queryVariant(input)
 
         assertThat(output.recordsTotal).isEqualTo(5)
         assertThat(output.recordsFiltered).isEqualTo(4)
         assertThat(output.data).hasSize(3)
 
         input = input.copy(draw = 2, start = 3)
-        output = queryVariantPaging(input)
+        output = queryVariant(input)
 
         assertThat(output.recordsTotal).isEqualTo(5)
         assertThat(output.recordsFiltered).isEqualTo(4)
         assertThat(output.data).hasSize(1)
 
-        input = DataTablesInput(queries = listOf(Query()))
-        output = queryVariantPaging(input)
+        input = SearchInput(queries = listOf(Query()))
+        output = queryVariant(input)
         assertThat(output.data!!).hasSize(variants.size)
     }
 
     @Test
     fun multipleQueries() {
-        val output = queryVariantPaging(DataTablesInput(
+        val output = queryVariant(SearchInput(
                 queries = listOf(Query(snpId = "rs6040355"), Query(geneSymbol = "DEFB125"), Query(referenceName = "1", start = 10, end = 20
                 ))))
         assertThat(output.data).hasSize(2)
     }
 
-    @Test(expected = HttpClientErrorException::class)
-    fun queryOnlyDatasetId() {
-        queryVariant(Query(datasetId = "test"))
-    }
-
-    @Test(expected = HttpClientErrorException::class)
-    fun queryOnlyAssemblyId() {
-        queryVariant(Query(assemblyId = "GCRh38"))
-    }
-
-    private fun queryVariant(query: Query): List<Variant> {
-        return client.postForObject("/search", query, QueryResponse::class.java)!!.variants
-    }
-
-    private fun queryVariantPaging(input: DataTablesInput): DataTablesOutput {
-        return client.postForObject("/datatables", input, DataTablesOutput::class.java)!!
+    private fun queryVariant(input: SearchInput): SearchResponse {
+        return client.postForObject("/search", input, SearchResponse::class.java)!!
     }
 
     class VariantResources : Resources<Variant>()

@@ -1,8 +1,8 @@
-package org.bipmed.brave.server.datatables
+package org.bipmed.brave.server.search
 
 import org.bipmed.brave.server.variant.Variant
 
-data class DataTablesOutput(
+data class SearchResponse(
         val draw: Int? = null,
         val recordsTotal: Long? = null,
         val recordsFiltered: Long? = null,

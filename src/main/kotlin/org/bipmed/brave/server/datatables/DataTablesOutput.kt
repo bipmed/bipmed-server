@@ -1,6 +1,6 @@
-package org.bipmed.server.datatables
+package org.bipmed.brave.server.datatables
 
-import org.bipmed.server.variant.Variant
+import org.bipmed.brave.server.variant.Variant
 
 data class DataTablesOutput(
         val draw: Int? = null,

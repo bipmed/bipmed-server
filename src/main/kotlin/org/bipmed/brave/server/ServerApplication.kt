@@ -1,4 +1,4 @@
-package org.bipmed.server
+package org.bipmed.brave.server
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication

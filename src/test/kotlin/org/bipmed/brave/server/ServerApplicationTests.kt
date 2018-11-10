@@ -1,11 +1,11 @@
-package org.bipmed.server
+package org.bipmed.brave.server
 
 import org.assertj.core.api.Assertions.assertThat
-import org.bipmed.server.api.QueryResponse
-import org.bipmed.server.datatables.DataTablesInput
-import org.bipmed.server.datatables.DataTablesOutput
-import org.bipmed.server.query.Query
-import org.bipmed.server.variant.Variant
+import org.bipmed.brave.server.api.QueryResponse
+import org.bipmed.brave.server.datatables.DataTablesInput
+import org.bipmed.brave.server.datatables.DataTablesOutput
+import org.bipmed.brave.server.query.Query
+import org.bipmed.brave.server.variant.Variant
 import org.junit.After
 import org.junit.Before
 import org.junit.Test

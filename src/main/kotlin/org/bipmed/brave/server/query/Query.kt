@@ -1,4 +1,4 @@
-package org.bipmed.server.query
+package org.bipmed.brave.server.query
 
 import org.springframework.data.mongodb.core.mapping.Document
 

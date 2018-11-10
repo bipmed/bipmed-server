@@ -1,6 +1,6 @@
 [
   {
-    "variantIds": [
+    "snpIds": [
       "rs6054257"
     ],
     "datasetId": "test",
@@ -12,7 +12,9 @@
       "A"
     ],
     "geneSymbol": "DEFB125",
-    "alleleFrequency": 0.5,
+    "alleleFrequency": [
+      0.5
+    ],
     "sampleCount": 3
   },
   {
@@ -24,12 +26,13 @@
     "alternateBases": [
       "T"
     ],
-    "geneSymbol": null,
-    "alleleFrequency": 0.017,
+    "alleleFrequency": [
+      0.017
+    ],
     "sampleCount": 3
   },
   {
-    "variantIds": [
+    "snpIds": [
       "rs6040355"
     ],
     "datasetId": "test",
@@ -57,11 +60,10 @@
     "alternateBases": [
       "."
     ],
-    "geneSymbol": null,
     "sampleCount": 3
   },
   {
-    "variantIds": [
+    "snpIds": [
       "microsat1"
     ],
     "datasetId": "test",
@@ -73,7 +75,6 @@
       "G",
       "GTCT"
     ],
-    "geneSymbol": null,
     "sampleCount": 3
   }
 ]

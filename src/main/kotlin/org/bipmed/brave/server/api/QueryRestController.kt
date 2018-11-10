@@ -1,8 +1,8 @@
-package org.bipmed.server.api
+package org.bipmed.brave.server.api
 
-import org.bipmed.server.error.InvalidQuery
-import org.bipmed.server.query.Query
-import org.bipmed.server.query.QueryService
+import org.bipmed.brave.server.error.InvalidQuery
+import org.bipmed.brave.server.query.Query
+import org.bipmed.brave.server.query.QueryService
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody

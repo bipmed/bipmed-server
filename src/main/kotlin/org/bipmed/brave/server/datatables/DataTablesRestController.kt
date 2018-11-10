@@ -1,6 +1,6 @@
-package org.bipmed.server.datatables
+package org.bipmed.brave.server.datatables
 
-import org.bipmed.server.query.QueryService
+import org.bipmed.brave.server.query.QueryService
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody

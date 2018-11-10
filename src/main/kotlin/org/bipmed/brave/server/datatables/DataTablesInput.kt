@@ -1,6 +1,6 @@
-package org.bipmed.server.datatables
+package org.bipmed.brave.server.datatables
 
-import org.bipmed.server.query.Query
+import org.bipmed.brave.server.query.Query
 
 data class DataTablesInput(
         val draw: Int = 1,

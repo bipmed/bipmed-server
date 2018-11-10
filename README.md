@@ -1,6 +1,6 @@
-# BIPMed Server
+# BraVE Server
 
-This system provides API endpoint for sharing variant data with [BIPMed website](https://bipmed.org/).
+This system provides API endpoint for sharing variant data with [BraVE - BIPMed Variant Explorer](https://bipmed.org/brave).
 It accepts `Query` as POST request and returns a list of `Variant`.
 
 Query
@@ -35,40 +35,36 @@ mvn install -DskipTests dockerfile:build
 ## Run Docker images locally
 
 ```bash
-docker network create bipmed
-
-docker volume create bipmed_data
+docker network create brave_net
 
 docker container run \
    --rm \
    --detach \
-   --name bipmed_db \
-   --network bipmed \
-   --volume bipmed_data:/data/db \
-   --publish 27017:27017 \
-   mongo
+   --name brave_db \
+   --network brave_net \
+   mongo:4
 
 docker container run \
    --rm \
-   --name bipmed_server \
+   --network brave_net \
    --publish 8080:8080 \
-   --network bipmed \
-   -e SPRING_DATA_MONGODB_URI=mongodb://bipmed_db:27017/bipmed \
-   welliton/bipmed-server
+   -e SPRING_DATA_MONGODB_URI=mongodb://brave_db:27017/brave \
+   bipmed/brave-server
 ```
 
 ## Import test data
 
 ```bash
-mongoimport --collection variant --db bipmed --jsonArray --file test-data.json
+jq -c '.[]' test-data.json | while read variant; do
+    curl http://localhost:8080/variants -H "Content-type: application/json" -d ${variant}
+done
 ```
 
 ## Querying server
 
 ```bash
-curl http://localhost:8080/ -H "Content-type: application/json" -d snpId
-curl http://localhost:8080/ -H "Content-type: application/json" -d '{"datasetId":"test"}'
-curl http://localhost:8080/ -H "Content-type: application/json" -d '{"referenceName":"20", "start":1230237}'
-curl http://localhost:8080/ -H "Content-type: application/json" -d '{"referenceName":"20", "start":1230237, "end":1234567}'
-curl http://localhost:8080/ -H "Content-type: application/json" -d '{"geneSymbol":"DEFB125"}'
+curl http://localhost:8080/search -H "Content-type: application/json" -d '{"snpId":"rs6040355"}'
+curl http://localhost:8080/search -H "Content-type: application/json" -d '{"referenceName":"20", "start":1230237}'
+curl http://localhost:8080/search -H "Content-type: application/json" -d '{"referenceName":"20", "start":1230237, "end":1234567}'
+curl http://localhost:8080/search -H "Content-type: application/json" -d '{"geneSymbol":"DEFB125"}'
 ```

@@ -1,4 +1,4 @@
-package org.bipmed.server.variant
+package org.bipmed.brave.server.variant
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import org.springframework.data.annotation.Id

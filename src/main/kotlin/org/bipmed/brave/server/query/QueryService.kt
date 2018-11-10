@@ -1,9 +1,9 @@
-package org.bipmed.server.query
+package org.bipmed.brave.server.query
 
-import org.bipmed.server.datatables.DataTablesInput
-import org.bipmed.server.datatables.DataTablesOutput
-import org.bipmed.server.variant.Variant
-import org.bipmed.server.variant.VariantRepository
+import org.bipmed.brave.server.datatables.DataTablesInput
+import org.bipmed.brave.server.datatables.DataTablesOutput
+import org.bipmed.brave.server.variant.Variant
+import org.bipmed.brave.server.variant.VariantRepository
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.data.mongodb.core.query.Criteria

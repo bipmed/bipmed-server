@@ -13,7 +13,7 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
     override fun configure(http: HttpSecurity) {
         http
                 .authorizeRequests()
-                .antMatchers("/", "/search").permitAll()
+                .antMatchers("/search").permitAll()
                 .anyRequest().fullyAuthenticated()
                 .and().formLogin().disable()
                 .logout().disable()

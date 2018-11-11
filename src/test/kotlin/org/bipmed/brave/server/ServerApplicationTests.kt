@@ -10,9 +10,11 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.web.client.RestTemplateBuilder
 import org.springframework.boot.web.server.LocalServerPort
+import org.springframework.core.env.Environment
 import org.springframework.hateoas.Resources
 import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.web.client.RestTemplate
@@ -29,6 +31,9 @@ class ServerApplicationTests {
     private lateinit var restTemplateBuilder: RestTemplateBuilder
 
     private lateinit var client: RestTemplate
+
+    @Value("\${spring.security.user.password}")
+    private val password = ""
 
     private val variants = listOf(
             Variant(
@@ -104,6 +109,7 @@ class ServerApplicationTests {
     fun init() {
         client = restTemplateBuilder
                 .rootUri("http://localhost:$localPort")
+                .basicAuthorization("user", password)
                 .build()
 
         variantUris = variants.mapNotNull { client.postForLocation("/variants", it) }

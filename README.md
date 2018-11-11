@@ -49,14 +49,15 @@ docker container run \
    --network brave_net \
    --publish 8080:8080 \
    -e SPRING_DATA_MONGODB_URI=mongodb://brave_db:27017/brave \
-   bipmed/brave-server
+   bipmed/brave-server \
+   --spring.security.user.password=secret
 ```
 
 ## Import test data
 
 ```bash
 jq -c '.[]' test-data.json | while read variant; do
-    curl http://localhost:8080/variants -H "Content-type: application/json" -d ${variant}
+    curl http://localhost:8080/variants -H "Content-type: application/json" -d "${variant}" -u user:secret 
 done
 ```
 

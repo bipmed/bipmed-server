@@ -43,7 +43,7 @@ class SearchService(private val mongoTemplate: MongoTemplate, private val varian
             }
 
             if (geneSymbol != null) {
-                criteria.and("geneSymbol").`is`(geneSymbol)
+                criteria.and("geneSymbol").all(geneSymbol)
             }
 
             if (datasetId != null) {

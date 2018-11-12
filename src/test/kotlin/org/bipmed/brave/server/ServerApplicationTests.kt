@@ -47,7 +47,7 @@ class ServerApplicationTests {
                     alternateBases = listOf("A"),
                     alleleFrequency = listOf(0.5),
                     sampleCount = 3,
-                    geneSymbol = listOf("DEFB125"),
+                    geneSymbol = listOf("DEFB125", "DEFB126"),
                     hgvs = listOf("n.14370G>A")
             ),
             Variant(

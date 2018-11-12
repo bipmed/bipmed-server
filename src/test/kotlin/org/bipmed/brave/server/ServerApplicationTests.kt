@@ -47,7 +47,8 @@ class ServerApplicationTests {
                     alternateBases = listOf("A"),
                     alleleFrequency = listOf(0.5),
                     sampleCount = 3,
-                    geneSymbol = "DEFB125"
+                    geneSymbol = listOf("DEFB125"),
+                    hgvs = listOf("n.14370G>A")
             ),
             Variant(
                     datasetId = "test",
@@ -58,7 +59,8 @@ class ServerApplicationTests {
                     referenceBases = "A",
                     alternateBases = listOf("T"),
                     alleleFrequency = listOf(0.017),
-                    sampleCount = 3
+                    sampleCount = 3,
+                    hgvs = listOf("n.17330T>A")
             ),
             Variant(
                     datasetId = "test",
@@ -71,7 +73,7 @@ class ServerApplicationTests {
                     alternateBases = listOf("G", "T"),
                     alleleFrequency = listOf(0.333, 0.667),
                     sampleCount = 2,
-                    geneSymbol = "TMEM74B "
+                    geneSymbol = listOf("TMEM74B")
             ),
             Variant(
                     datasetId = "test",

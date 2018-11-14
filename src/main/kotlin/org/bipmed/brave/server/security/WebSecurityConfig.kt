@@ -19,6 +19,7 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
                 .logout().disable()
                 .csrf().disable()
                 .httpBasic()
+                .and().cors()
     }
 
 }

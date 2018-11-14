@@ -12,7 +12,8 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
     @Throws(Exception::class)
     override fun configure(http: HttpSecurity) {
         http
-                .authorizeRequests()
+                .cors().
+                and().authorizeRequests()
                 .antMatchers("/search").permitAll()
                 .anyRequest().fullyAuthenticated()
                 .and().formLogin().disable()

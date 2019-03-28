@@ -1,10 +1,8 @@
 package org.bipmed.brave.server.variant;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -38,7 +36,7 @@ public class Variant {
     private List<String> type;
 
     @Data
-    class Statistics {
+    private class Statistics {
 
         private Integer min;
         private Float q25;

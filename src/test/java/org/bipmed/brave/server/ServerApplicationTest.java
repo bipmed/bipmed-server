@@ -1,7 +1,5 @@
 package org.bipmed.brave.server;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.bipmed.brave.server.query.Query;
 import org.bipmed.brave.server.search.SearchInput;
 import org.bipmed.brave.server.search.SearchResponse;

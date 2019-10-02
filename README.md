@@ -1,4 +1,4 @@
-# BraVE Server
+# BraVE Server - https://github.com/labbcb/brave
 
 This system provides API endpoint for sharing variant data with [BraVE - BIPMed Variant Explorer](https://bipmed.org/brave).
 It accepts `Query` as POST request and returns a list of `Variant`.
